@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kubepro-deployment
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: kubepro
+  template:
+    metadata:
+      labels:
+        app: kubepro
+    spec:
+      containers:
+        - name: kubepro
+          image: vinodhconnects/kubepro
+          ports:
+            - containerPort: 80
+          command: ["/bin/sh", "-c"]
+          args:
+            - |
+              echo "Served by $(hostname)" >> /usr/local/apache2/htdocs/index.html && \
+              httpd-foreground
